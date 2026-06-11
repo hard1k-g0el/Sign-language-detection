@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sign Language Translator</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:linear-gradient(
+        135deg,
+        #0f172a,
+        #1e293b,
+        #111827
+    );
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:30px;
+}
+
+.container{
+    width:100%;
+    max-width:1400px;
+}
+
+.header{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.header h1{
+    font-size:3rem;
+    font-weight:700;
+}
+
+.header p{
+    color:#cbd5e1;
+    margin-top:10px;
+}
+
+.main{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:25px;
+}
+
+.card{
+    background:rgba(255,255,255,0.05);
+    backdrop-filter:blur(12px);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:25px;
+    padding:20px;
+}
+
+video{
+    width:100%;
+    border-radius:18px;
+    transform: scaleX(-1); /*for flipping the camera */
+}
+
+.right-panel{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+.label{
+    font-size:1rem;
+    color:#94a3b8;
+    margin-bottom:10px;
+}
+
+.prediction-box{
+    text-align:center;
+}
+
+#prediction{
+    font-size:6rem;
+    font-weight:bold;
+    color:#22c55e;
+}
+
+#sentence{
+    min-height:140px;
+    background:#0f172a;
+    border-radius:15px;
+    padding:15px;
+    font-size:1.4rem;
+    word-wrap:break-word;
+    line-height:1.5;
+}
+
+.button-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+button{
+    border:none;
+    padding:14px;
+    border-radius:12px;
+    font-size:1rem;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+button:hover{
+    transform:translateY(-2px);
+}
+
+.add-btn{
+    background:#22c55e;
+    color:white;
+}
+
+.space-btn{
+    background:#3b82f6;
+    color:white;
+}
+
+.back-btn{
+    background:#f59e0b;
+    color:white;
+}
+
+.clear-btn{
+    background:#ef4444;
+    color:white;
+}
+
+.status{
+    margin-top:10px;
+    text-align:center;
+}
+
+.dot{
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    background:#22c55e;
+    display:inline-block;
+    margin-right:6px;
+}
+
+@media(max-width:1000px){
+
+    .main{
+        grid-template-columns:1fr;
+    }
+
+    #prediction{
+        font-size:4rem;
+    }
+
+    .header h1{
+        font-size:2rem;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>🤟 Sign Language Translator</h1>
+        <p>Real-Time Sign to Text Conversion using MediaPipe + XGBoost</p>
+    </div>
+
+    <div class="main">
+
+        <div class="card">
+
+            <video id="video" autoplay playsinline></video>
+
+            <canvas id="canvas" style="display:none;"></canvas>
+
+        </div>
+
+        <div class="right-panel">
+
+            <div class="card prediction-box">
+
+                <div class="label">
+                    Current Prediction
+                </div>
+
+                <div id="prediction">-</div>
+
+                <div class="status">
+                    <span class="dot"></span>
+                    Live Detection
+                </div>
+
+            </div>
+
+            <div class="card">
+
+                <div class="label">
+                    Generated Sentence
+                </div>
+
+                <div id="sentence">
+                    Waiting for gestures...
+                </div>
+
+            </div>
+
+            <div class="button-grid">
+
+                <button class="add-btn"
+                        onclick="addLetter()">
+                    ➕ Add Letter
+                </button>
+
+                <button class="space-btn"
+                        onclick="addSpace()">
+                    ␣ Space
+                </button>
+
+                <button class="back-btn"
+                        onclick="backspaceSentence()">
+                    ⌫ Backspace
+                </button>
+
+                <button class="clear-btn"
+                        onclick="clearSentence()">
+                    🗑 Clear
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
