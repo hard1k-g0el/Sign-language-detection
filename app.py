@@ -14,6 +14,10 @@ scaler = pickle.load(open("Standard_scaler.pkl", "rb"))
 letters = list("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
 buffer = deque(maxlen=6)
+print("MediaPipe module:", mp)
+print("MediaPipe file:", getattr(mp, "__file__", "No file"))
+print("MediaPipe version:", getattr(mp, "__version__", "No version"))
+print("Has solutions:", hasattr(mp, "solutions"))
 
 mp_hands = mp.solutions.hands
 hands_detector = mp_hands.Hands(
