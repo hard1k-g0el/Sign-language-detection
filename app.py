@@ -3,7 +3,7 @@ import pickle
 import numpy as np
 import cv2
 import base64
-import mediapipe as mp
+from mediapipe.python.solutions import hands as mp_hands
 from collections import Counter, deque
 
 app = Flask("Sign Language Detection")
@@ -14,15 +14,15 @@ scaler = pickle.load(open("Standard_scaler.pkl", "rb"))
 letters = list("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
 buffer = deque(maxlen=6)
-print("MediaPipe module:", mp)
-print("MediaPipe file:", getattr(mp, "__file__", "No file"))
-print("MediaPipe version:", getattr(mp, "__version__", "No version"))
-print("Has solutions:", hasattr(mp, "solutions"))
+# print("MediaPipe module:", mp)
+# print("MediaPipe file:", getattr(mp, "__file__", "No file"))
+# print("MediaPipe version:", getattr(mp, "__version__", "No version"))
+# print("Has solutions:", hasattr(mp, "solutions"))
 
-mp_hands = mp.solutions.hands
+# mp_hands = mp.solutions.hands
 hands_detector = mp_hands.Hands(
     static_image_mode=False,
-    max_num_hands=2,
+    max_num_hands=1,
     min_detection_confidence=0.8
 )
 
